@@ -9,29 +9,18 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.VBox?>
-<!--<VBox fx:controller="sample.Controller"-->
-<!--      xmlns:fx="http://javafx.com/fxml" alignment="TOP_LEFT">-->
-<!--    <TextArea fx:id="MsgArea" promptText="Переписка" editable="false" />-->
-<!--    <TextField fx:id="MsgField" minWidth="380" promptText="Введите сообщение" onAction="#btnSendMsg"/>-->
-<!--    <fx:script>-->
-<!--        MsgField.textProperty()["addListener(javafx.beans.value.ChangeListener)"](-->
-<!--        function(observable, oldValue, newValue){-->
-<!--        print('observable: ' + observable);-->
-<!--        print(' oldValue: ' + oldValue);-->
-<!--        print(' newValue: ' + newValue);-->
-<!--        controller.js2controller(observable, oldValue, newValue);-->
-<!--        });-->
-<!--    </fx:script>-->
-<!--    <Button fx:id="SendMsg" text="Отправить сообщение" onAction="#btnSendMsg" disable="true"/>-->
-<!--</VBox>-->
-
 <?import javafx.scene.layout.BorderPane?>
 <?import java.net.URL?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <BorderPane fx:controller="sample.Controller"
             xmlns:fx="http://javafx.com/fxml">
+    <stylesheets>
+        <URL value="@/css/style.css"/>
+    </stylesheets>
     <top>
         <MenuBar>
             <Menu text="Настройки">
@@ -40,26 +29,29 @@
             </Menu>
         </MenuBar>
     </top>
-    <stylesheets>
-        <URL value="@/css/style.css"/>
-    </stylesheets>
+
 
     <center>
-        <TextArea fx:id="MsgArea" promptText="Переписка" editable="false"/>
+        <TextArea fx:id="MsgArea" promptText="Переписка" editable="false" wrapText="true"/>
     </center>
     <bottom>
-        <VBox>
-            <TextField fx:id="MsgField" minWidth="380" promptText="Введите сообщение" onAction="#btnSendMsg"/>
+        <HBox>
+            <TextField fx:id="MsgField" minWidth="467" promptText="Введите сообщение" onAction="#btnSendMsg"/>
             <fx:script>
                 MsgField.textProperty()["addListener(javafx.beans.value.ChangeListener)"](
                 function(observable, oldValue, newValue){
-                print('observable: ' + observable);
-                print(' oldValue: ' + oldValue);
-                print(' newValue: ' + newValue);
                 controller.js2controller(observable, oldValue, newValue);
                 });
             </fx:script>
-            <Button fx:id="SendMsg" text="Отправить сообщение" onAction="#btnSendMsg" disable="true"/>
-        </VBox>
+            <Button fx:id="SendMsg" onAction="#btnSendMsg" disable="true">
+                <graphic>
+                    <ImageView fitHeight="17.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="/image/send.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+        </HBox>
     </bottom>
 </BorderPane>

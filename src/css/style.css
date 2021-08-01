@@ -15,3 +15,7 @@
 .button:hover{
 -fx-font-weight: bold;
 }
+
+#SendMsg{
+-fx-icon url("/image/send.png");
+}
