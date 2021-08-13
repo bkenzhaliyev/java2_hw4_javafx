@@ -39,20 +39,43 @@ public class Server {
 
     public void broadcastMsg(ClientHandler sender, String msg) {
         String message = String.format("[%s]: %s", sender.getNickname(), msg);
-//        System.out.println(message);
-
         for (ClientHandler c : clients) {
                 c.sendMsg(message);
         }
     }
 
-    public void broadcastMsgSingleUser(ClientHandler sender, String msg, String recipient) {
-        String message = String.format("[%s]: %s", sender.getNickname(), msg);
-//        System.out.println(message);
+    public void privateMsg(ClientHandler sender, String receiver, String msg) {
+        String message = String.format("[%s]->[%s] : %s", sender.getNickname(), receiver, msg);
         for (ClientHandler c : clients) {
-                if (recipient.equals(c.getNickname()) || sender.getNickname().equals(c.getNickname())) {
-                    c.sendMsg(message);
+            if (c.getNickname().equals(receiver)) {
+                c.sendMsg(message);
+                if (!c.equals(sender)) {
+                    sender.sendMsg(message);
                 }
+                return;
+            }
+        }
+        sender.sendMsg("Пользователь не найден: "+ receiver);
+    }
+
+    public boolean isLoginAuthenticated(String login) {
+        for (ClientHandler c : clients) {
+            if(c.getLogin().equals(login)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void broadcastClientList() {
+        StringBuilder sb = new StringBuilder("/clientlist");
+        for (ClientHandler c : clients) {
+            sb.append(" ").append(c.getNickname());
+        }
+
+        String message = sb.toString();
+        for (ClientHandler c : clients) {
+            c.sendMsg(message);
         }
     }
 
@@ -62,10 +85,12 @@ public class Server {
 
     public void subscribe(ClientHandler clientHandler) {
         clients.add(clientHandler);
+        broadcastClientList();
     }
 
     public void unsubscribe(ClientHandler clientHandler) {
         clients.remove(clientHandler);
+        broadcastClientList();
     }
 
 }
